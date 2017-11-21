@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <title>Grid Sample</title>
+  
+</head>
+<body>
+  <canvas id='canvas_box'>
+    
+  </canvas>
+</body>
+
+</html>
+
+<script charset="utf-8">
+  let canvas = document.getElementById('canvas_box');
+</script>
+
+<script src="gradient.js"></script>
+<script src="grid.configuration.js"></script>
+<script src="grid.canvas.manager.js"></script>
+<script src="grid.coordinate.manager.js"></script>
+<script src="grid.main.manager.js"></script>
+
+<script charset="utf-8">
+  GridManager.drawBoard();
+  var colors = gradient( '#ff0000','#00ff00', 100);
+  var factors=null;
+  var value=1;
+  var line;
+  var colum;
+  for (line = 0; line < configuration.cellsPerColumn; line++){
+    setTimeout(function(l){
+
+      for (column = 0; column < configuration.cellsPerLine; column++){
+        console.log(column+'x'+l);
+        factors = (function(n){
+          return Array
+          .from(Array(n+1),(_,i) => i)
+          .filter(i => n % i===0)
+        })(value);
+        console.log(factors);  
+        complexity = factors.length;
+        
+        if(2 === complexity){
+          console.log(value);
+          console.log(factors);
+          GridManager.strokeCell(column, l, 'red');
+          GridManager.fillCell(column, l, 'black');
+        } else {
+          console.log(complexity);
+          var color = colors[complexity].padEnd(7, '0').toLocaleUpperCase();
+          console.log(color);
+          GridManager.fillCell(column, l, color);
+        }
+        value++;
+      }
+    }, line*100, line);
+  }
+  console.log(colors);
+</script>
